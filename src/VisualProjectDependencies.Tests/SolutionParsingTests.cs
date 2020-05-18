@@ -59,5 +59,4 @@ namespace VisualProjectDependencies.Tests
             Assert.AreEqual("5FA136EB-B352-4087-B5C1-A93B3EFD853D", guid.ToString().ToUpper());
         }
     }
-
 }
