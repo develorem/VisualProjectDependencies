@@ -45,7 +45,7 @@ namespace VisualProjectDependencies.Tests
             var solutionReader = new SolutionReader();
             var project = solutionReader.ConvertToProject(testProject);
 
-            Assert.AreEqual("Home.Data\\Home.Data.csproj", project.Path);
+            Assert.AreEqual("Home.Data\\Home.Data.csproj", project.SolutionRelativePath);
             Assert.AreEqual("Home.Data", project.Name);
             Assert.AreEqual("5FA136EB-B352-4087-B5C1-A93B3EFD853D", project.Id.ToString().ToUpper());
         }

@@ -3,7 +3,12 @@ using System.Linq;
 
 namespace VisualProjectDependencies
 {
-    public class DependencyDepthAnalyser
+    public interface IDependencyDepthAnalyser
+    {
+        int Analyse(ProjectGraph project);
+    }
+
+    public class DependencyDepthAnalyser : IDependencyDepthAnalyser
     {
         public int Analyse(ProjectGraph project)
         {

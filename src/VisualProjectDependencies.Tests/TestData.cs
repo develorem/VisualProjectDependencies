@@ -9,7 +9,12 @@ namespace VisualProjectDependencies.Tests
     {
         public static string LoadSampleSolutionText()
         {            
-            return LoadResource(@"VisualProjectDependencies.Tests.Data.SampleSolution.txt");            
+            return LoadResource(@"VisualProjectDependencies.Tests.Data.SampleSolution.txt");
+        }
+
+        public static string LoadSampleProjectText()
+        {
+            return LoadResource(@"VisualProjectDependencies.Tests.Data.SampleProject.txt");
         }
 
         private static string LoadResource(string resourceName)
@@ -49,7 +54,7 @@ namespace VisualProjectDependencies.Tests
 
         private static ProjectGraph CreateProjectGraphWithChildren(int numberChildren)
         {
-            var project = new ProjectGraph();
+            var project = new ProjectGraph(new Project());
             AddChildren(project, numberChildren);
             return project;
         }
@@ -60,7 +65,7 @@ namespace VisualProjectDependencies.Tests
 
             for (var i = 0; i < numberChildren; i++)
             {
-                var child = new ProjectGraph();
+                var child = new ProjectGraph(new Project());
                 children.Add(child);
             }
 

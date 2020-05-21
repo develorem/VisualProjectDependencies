@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace VisualProjectDependencies
@@ -30,8 +31,25 @@ namespace VisualProjectDependencies
             foreach (var line in projectLines)
             {
                 var project = ConvertToProject(line);
-                if (project != null) yield return project;
+                if (project != null && IsProject(project)) yield return project;
             }
+        }
+
+        private bool IsProject(Project project)
+        {
+            // Some Project guids are in fact folders
+            var folderGuids = new string[]
+            {
+                "2150E333-8FDC-42A3-9474-1A3956D46DE8",
+                "66A26720-8FB5-11D2-AA7E-00C04F688DDE",
+                "620A7797-1AB9-4396-AB77-2B686D949DDC"
+            };
+
+            if (folderGuids.Contains(project.ProjectTypeId.ToString().ToUpper()))
+            {
+                return false;
+            }
+            return true;
         }
 
         public IEnumerable<string> ParseOutProjects(string solutionText)
@@ -57,12 +75,17 @@ namespace VisualProjectDependencies
             var equals = projectRow.IndexOf("=");
             if (equals <= -1) return null;
 
+            var initial = projectRow.Substring(0, equals);
+            var projectType = initial.Replace("Project(", "").Replace("\"", "").Replace(")", "").Trim().Replace("=", "").Trim();
+            var projectGuid = Guid.Parse(projectType);
+            
             var remaining = projectRow.Substring(equals + 1).TrimStart().TrimEnd();
             var tokens = remaining.Split(",");
             if (tokens == null || tokens.Length != 3) return null;
 
+            p.ProjectTypeId = projectGuid;
             p.Name = ScrubString(tokens[0]);
-            p.Path = ScrubString(tokens[1]);
+            p.SolutionRelativePath = ScrubString(tokens[1]);
             p.Id = Guid.Parse(ScrubString(tokens[2]));
 
             return p;

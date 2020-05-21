@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace VisualProjectDependencies
 {
-    public class ProjectGraph : Project
+    public class ProjectGraph 
     {
         /// <summary>
         /// Other projects that this project depends on and needs to be able to build
@@ -15,8 +15,14 @@ namespace VisualProjectDependencies
         /// </summary>
         public int DependencyDepth { get; set; }
 
-        public ProjectGraph()
+        /// <summary>
+        /// The project specific details as read from the solution file
+        /// </summary>
+        public Project Project { get; }
+
+        public ProjectGraph(Project project)
         {
+            Project = project;
             ProjectDependencies = Array.Empty<ProjectGraph>();
         }
     }

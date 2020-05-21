@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\SampleProject.txt" />
     <None Remove="Data\SampleSolution.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\SampleProject.txt" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,6 +4,11 @@ namespace VisualProjectDependencies
 {
     public class DependencyList
     {
-        IEnumerable<Project> ProjectDependencies { get; set; }
+        public IEnumerable<string> ProjectDependencyPaths { get; set; }
+
+        public DependencyList()
+        {
+            ProjectDependencyPaths = new List<string>();
+        }
     }
 }
