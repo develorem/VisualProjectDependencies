@@ -13,7 +13,7 @@ namespace VisualProjectDependencies
         /// <summary>
         /// How many levels of dependency deep it is; 0 means no dependencies
         /// </summary>
-        public int DependencyDepth { get; set; }
+        public int? DependencyDepth { get; set; }
 
         /// <summary>
         /// The project specific details as read from the solution file

@@ -12,33 +12,34 @@ namespace VisualProjectDependencies
     {
         public int Analyse(ProjectGraph project)
         {
-            // Although it shouldn't be the case, we will track projects we have seen anyway, on the off chance we end up in a loop
-            var projectsSeen = new List<ProjectGraph>();
-            var counter = AnalyseRecursive(project, 0, projectsSeen);
-            return counter;
-        }
-
-        private int AnalyseRecursive(ProjectGraph project, int currentCount, List<ProjectGraph> projectsSeen)
-        {
-            if (project.ProjectDependencies.Count() == 0)
-                return currentCount;
+            AnalyseRecursive(project);
             
-            var unseenChildren = project.ProjectDependencies.Where(x => !projectsSeen.Contains(x)).ToArray();
-            if (unseenChildren.Length == 0)
-                return currentCount;
-
-            currentCount++;
-
-            projectsSeen.AddRange(unseenChildren);
-
-            var highestDepth = currentCount;
-            foreach (var p in unseenChildren)
-            {
-                var depth = AnalyseRecursive(p, currentCount, projectsSeen);
-                if (depth > highestDepth) highestDepth = depth;
-            }
-            return highestDepth;
+            return project.DependencyDepth.Value;
         }
+
+        private void AnalyseRecursive(ProjectGraph project)
+        {
+            // The tactic here is to find the bottom most child, set its depth to 0.
+            // Then as we unwind the call stack, set the depth of the current project to the highsest child depth + 1
+
+            if (project.ProjectDependencies.Count() == 0)
+            {
+                project.DependencyDepth = 0;
+                return;
+            }
+
+            foreach (var child in project.ProjectDependencies)
+            {
+                if (child.DependencyDepth.HasValue) continue;
+
+                AnalyseRecursive(child);
+            }
+
+            var maxChild = project.ProjectDependencies.Max(x => x.DependencyDepth);
+
+            project.DependencyDepth = maxChild + 1;
+        }
+
     }
 
 }

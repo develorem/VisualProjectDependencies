@@ -18,17 +18,5 @@ namespace VisualProjectDependencies.Tests
 
         }
 
-        [Test]
-        public void EndToEndTestLargeSolution()
-        {
-            // This is a real SLN file on my system.
-            // Replace with one of your own
-
-            var slnFile = @"C:\Me\dev\qh\TH-VIRTUAL-CLINIC\Server\Health.Telehealth.VirtualWaitingRoom.Server.sln";
-            var outputFile = @"C:\Me\dev\temp\ProjectDependencies\Health.Telehealth.VirtualWaitingRoom.Server.txt";
-
-            Program.Main(new[] { slnFile, outputFile });
-
-        }
     }
 }
